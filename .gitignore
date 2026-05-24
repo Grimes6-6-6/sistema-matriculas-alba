@@ -40,3 +40,4 @@
 # Specific scripts to ignore if any
 backend/scripts/diag_output*.txt
 backend/diag_output*.txt
+/nbproject/private/

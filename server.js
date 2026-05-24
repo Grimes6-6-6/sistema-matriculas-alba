@@ -24,6 +24,30 @@ const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const isProduction = process.env.NODE_ENV === 'production';
+
+const parseOrigins = (value) => (value || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  ...parseOrigins(process.env.CORS_ORIGINS)
+].filter(Boolean);
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (!origin || !isProduction || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Origen no permitido por CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+};
 
 // Configuración de Rate Limit General (S2)
 const generalLimiter = rateLimit({
@@ -43,15 +67,12 @@ const loginLimiter = rateLimit({
 app.use(helmet({
   crossOriginResourcePolicy: false,
 })); 
-app.use(cors({
-  origin: true,
-  credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
-}));
-app.options('*', cors()); 
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 app.use(express.json({ limit: '1mb' })); 
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+app.use('/api', generalLimiter);
+app.use('/api/auth/login', loginLimiter);
 
 // Ruta de bienvenida
 app.get('/', (req, res) => {
@@ -60,6 +81,20 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     status: 'activo'
   });
+});
+
+app.get('/api/health', async (req, res, next) => {
+  try {
+    await testConnection();
+    res.json({
+      success: true,
+      status: 'ok',
+      environment: process.env.NODE_ENV || 'development',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 const globalErrorHandler = require('./middleware/errorHandler');
@@ -83,7 +118,13 @@ const docentePortalRoutes = require('./routes/docentePortal.routes');
 app.use('/api/portal-docente', docentePortalRoutes);
 
 // Ruta temporal para corregir la base de datos (Creación de tabla y estados)
-app.get('/api/fix-db', async (req, res) => {
+app.get('/api/fix-db', (req, res, next) => {
+  if (isProduction) {
+    return res.status(404).json({ success: false, message: 'Ruta no encontrada' });
+  }
+
+  next();
+}, async (req, res) => {
   try {
     const { promisePool } = require('./config/database');
     
@@ -170,6 +211,8 @@ app.use(globalErrorHandler);
 // Iniciar servidor
 const startServer = async () => {
   try {
+    await testConnection();
+
     // Iniciar servidor
     app.listen(PORT, () => {
       console.log(`Servidor corriendo en http://localhost:${PORT}`);
@@ -180,6 +223,8 @@ const startServer = async () => {
   }
 };
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
 
 module.exports = app;

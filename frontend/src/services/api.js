@@ -2,7 +2,11 @@
 import axios from 'axios';
 
 // URL base del backend - Forzamos Vercel para producción
-const API_URL = 'https://sistema-matriculas-alba-backend.vercel.app/api';
+const DEFAULT_API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://sistema-matriculas-alba-backend.vercel.app/api'
+  : 'http://localhost:5000/api';
+
+const API_URL = process.env.REACT_APP_API_URL || DEFAULT_API_URL;
 
 // Crear instancia de axios con configuración por defecto
 const api = axios.create({
