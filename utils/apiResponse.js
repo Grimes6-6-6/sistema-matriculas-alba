@@ -2,11 +2,13 @@
  * Utilidad Senior para estandarizar las respuestas de la API
  */
 const sendResponse = (res, statusCode, success, message, data = null, error = null) => {
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
     return res.status(statusCode).json({
         success,
         message,
         data,
-        error: process.env.NODE_ENV === 'development' ? error : undefined,
+        error: isDevelopment ? error : undefined,
         timestamp: new Date().toISOString()
     });
 };

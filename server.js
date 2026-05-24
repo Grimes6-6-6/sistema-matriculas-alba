@@ -26,6 +26,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const isProduction = process.env.NODE_ENV === 'production';
 
+app.disable('x-powered-by');
+app.set('trust proxy', 1);
+
 const parseOrigins = (value) => (value || '')
   .split(',')
   .map((origin) => origin.trim())
@@ -66,7 +69,9 @@ const loginLimiter = rateLimit({
 // Middlewares
 app.use(helmet({
   crossOriginResourcePolicy: false,
-})); 
+  frameguard: { action: 'deny' },
+  referrerPolicy: { policy: 'no-referrer' }
+}));
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); 
 app.use(express.json({ limit: '1mb' })); 

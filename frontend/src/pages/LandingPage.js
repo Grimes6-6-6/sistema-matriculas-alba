@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUserGraduate, FaUserTie, FaUserShield, FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaChalkboardTeacher, FaShieldAlt, FaUserGraduate } from 'react-icons/fa';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -8,203 +8,210 @@ const LandingPage = () => {
   const portals = [
     {
       title: 'Portal Estudiantil',
-      desc: 'Consulta tus notas, horarios, matriculas y pagos.',
-      icon: <FaUserGraduate size={40} />,
+      desc: 'Horarios, pagos, asistencias y matriculas del estudiante.',
+      icon: <FaUserGraduate size={34} />,
       path: '/portal',
-      color: '#4361ee',
-      bg: 'linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%)',
-      roles: 'Alumno / Estudiante'
+      accent: '#2563eb',
+      surface: '#eff6ff',
+      label: 'Estudiantes'
     },
     {
       title: 'Portal Docente',
-      desc: 'Gestiona tus cursos y registra asistencia de alumnos.',
-      icon: <FaUserTie size={40} />,
+      desc: 'Cursos asignados, estudiantes y registro de asistencia.',
+      icon: <FaChalkboardTeacher size={34} />,
       path: '/portal-docente',
-      color: '#0ea5e9',
-      bg: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)',
-      roles: 'Profesores / Tutores'
+      accent: '#059669',
+      surface: '#ecfdf5',
+      label: 'Docentes'
     },
     {
-      title: 'Administración',
-      desc: 'Gestión académica completa para personal autorizado.',
-      icon: <FaUserShield size={40} />,
+      title: 'Administracion',
+      desc: 'Gestion academica, reportes, pagos, cursos y matriculas.',
+      icon: <FaShieldAlt size={34} />,
       path: '/login',
-      color: '#6366f1',
-      bg: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-      roles: 'Director / Admin / Personal'
+      accent: '#0f172a',
+      surface: '#f1f5f9',
+      label: 'Equipo interno'
     }
   ];
 
   return (
-    <div style={styles.container}>
-      <div style={styles.content}>
-        <div style={styles.header}>
-          <img src="/logo_oficial.png" alt="Academia Alba" style={styles.logo} />
-          <h1 style={styles.title}>Plataforma Académica Digital</h1>
-          <p style={styles.subtitle}>Selecciona el portal correspondiente a tu perfil para continuar</p>
-        </div>
+    <main style={styles.page}>
+      <section style={styles.shell}>
+        <header style={styles.header}>
+          <div style={styles.identity}>
+            <img src="/logo_oficial.png" alt="Academia Alba" style={styles.logo} />
+            <div>
+              <p style={styles.kicker}>Academia Alba Peru</p>
+              <h1 style={styles.title}>Plataforma academica digital</h1>
+            </div>
+          </div>
+          <p style={styles.subtitle}>
+            Accede al entorno correspondiente para consultar, registrar o administrar la informacion academica.
+          </p>
+        </header>
 
-        <div style={styles.grid}>
-          {portals.map((p, i) => (
-            <div 
-              key={i} 
-              style={styles.card} 
-              onClick={() => navigate(p.path)}
+        <section style={styles.grid} aria-label="Portales disponibles">
+          {portals.map((portal) => (
+            <button
+              key={portal.path}
+              type="button"
+              style={styles.card}
+              onClick={() => navigate(portal.path)}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-15px) scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 30px 60px rgba(0,0,0,0.15)';
-                e.currentTarget.style.borderColor = p.color;
+                e.currentTarget.style.borderColor = portal.accent;
+                e.currentTarget.style.transform = 'translateY(-6px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,0,0,0.06)';
-                e.currentTarget.style.borderColor = '#f1f5f9';
+                e.currentTarget.style.borderColor = '#e2e8f0';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              <div style={{ ...styles.iconWrap, background: p.bg }}>
-                {p.icon}
+              <div style={{ ...styles.iconWrap, background: portal.surface, color: portal.accent }}>
+                {portal.icon}
               </div>
-              <h2 style={styles.cardTitle}>{p.title}</h2>
-              <div style={{ ...styles.roleBadge, background: `${p.color}10`, color: p.color }}>
-                {p.roles}
-              </div>
-              <p style={styles.cardDesc}>{p.desc}</p>
-              <div style={{ ...styles.actionBtn, background: p.bg, color: 'white' }}>
-                Ingresar al Portal <FaArrowRight size={14} />
-              </div>
-            </div>
+              <span style={{ ...styles.badge, background: portal.surface, color: portal.accent }}>
+                {portal.label}
+              </span>
+              <h2 style={styles.cardTitle}>{portal.title}</h2>
+              <p style={styles.cardDesc}>{portal.desc}</p>
+              <span style={{ ...styles.action, color: portal.accent }}>
+                Ingresar <FaArrowRight size={13} />
+              </span>
+            </button>
           ))}
-        </div>
+        </section>
 
         <footer style={styles.footer}>
-          © 2026 Academia Alba Perú. Todos los derechos reservados.
+          Sistema de gestion academica. Academia Alba Peru, 2026.
         </footer>
-      </div>
-
-      {/* Decoraciones de fondo */}
-      <div style={{ ...styles.circle, width: 600, height: 600, top: -200, right: -200, background: 'rgba(67, 97, 238, 0.03)' }} />
-      <div style={{ ...styles.circle, width: 400, height: 400, bottom: -100, left: -100, background: 'rgba(14, 165, 233, 0.03)' }} />
-    </div>
+      </section>
+    </main>
   );
 };
 
 const styles = {
-  container: {
+  page: {
     minHeight: '100vh',
     background: '#f8fafc',
     fontFamily: "'Plus Jakarta Sans', sans-serif",
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: '40px 20px',
-    position: 'relative',
-    overflow: 'hidden'
+    justifyContent: 'center',
+    padding: '34px 18px'
   },
-  content: {
-    maxWidth: 1100,
+  shell: {
     width: '100%',
-    position: 'relative',
-    zIndex: 2,
-    textAlign: 'center'
+    maxWidth: 1120
   },
   header: {
-    marginBottom: 80
+    display: 'flex',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    gap: 32,
+    marginBottom: 32
+  },
+  identity: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 20
   },
   logo: {
-    width: '80%',
-    maxWidth: 280,
-    marginBottom: 30,
-    filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.08))'
+    width: 138,
+    maxWidth: '34vw',
+    filter: 'drop-shadow(0 10px 18px rgba(15, 23, 42, 0.08))'
+  },
+  kicker: {
+    margin: 0,
+    color: '#2563eb',
+    fontSize: 13,
+    fontWeight: 900,
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em'
   },
   title: {
-    fontSize: 'clamp(28px, 5vw, 42px)',
-    fontWeight: 900,
+    margin: '6px 0 0',
     color: '#0f172a',
-    letterSpacing: '-1px',
-    marginBottom: 10
+    fontSize: 42,
+    lineHeight: 1.08,
+    fontWeight: 900,
+    letterSpacing: 0
   },
   subtitle: {
-    fontSize: 18,
-    color: '#64748b',
-    fontWeight: 500
+    maxWidth: 420,
+    margin: 0,
+    color: '#475569',
+    fontSize: 15,
+    lineHeight: 1.7,
+    fontWeight: 600
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: 30,
-    marginBottom: 80
+    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+    gap: 18
   },
   card: {
-    background: 'white',
-    borderRadius: 40,
-    padding: '50px 40px',
+    appearance: 'none',
+    border: '1px solid #e2e8f0',
+    background: '#ffffff',
+    borderRadius: 18,
+    padding: 28,
+    minHeight: 286,
+    textAlign: 'left',
     cursor: 'pointer',
-    transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.06)',
-    border: '2px solid #f1f5f9',
+    boxShadow: '0 16px 36px rgba(15, 23, 42, 0.06)',
+    transition: 'transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    textAlign: 'center',
-    position: 'relative',
-    overflow: 'hidden'
-  },
-  roleBadge: {
-    padding: '6px 14px',
-    borderRadius: 50,
-    fontSize: 11,
-    fontWeight: 800,
-    textTransform: 'uppercase',
-    letterSpacing: '0.8px',
-    marginBottom: 20
+    alignItems: 'flex-start'
   },
   iconWrap: {
-    width: 100,
-    height: 100,
-    borderRadius: 30,
+    width: 64,
+    height: 64,
+    borderRadius: 16,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: 'white',
-    marginBottom: 24,
-    boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
+    marginBottom: 18
   },
-  cardTitle: {
-    fontSize: 24,
-    fontWeight: 800,
-    color: '#0f172a',
+  badge: {
+    borderRadius: 999,
+    padding: '6px 10px',
+    fontSize: 11,
+    fontWeight: 900,
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
     marginBottom: 14
   },
+  cardTitle: {
+    margin: '0 0 10px',
+    color: '#0f172a',
+    fontSize: 22,
+    fontWeight: 900,
+    letterSpacing: 0
+  },
   cardDesc: {
-    fontSize: 15,
-    lineHeight: 1.6,
+    margin: 0,
     color: '#64748b',
-    marginBottom: 24,
+    fontSize: 14,
+    lineHeight: 1.65,
+    fontWeight: 600,
     flex: 1
   },
-  actionBtn: {
-    display: 'flex',
+  action: {
+    display: 'inline-flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-    fontWeight: 800,
-    fontSize: 16,
-    padding: '16px 32px',
-    borderRadius: 18,
-    width: '100%',
-    transition: 'all 0.3s ease',
-    boxShadow: '0 8px 16px rgba(0,0,0,0.1)'
+    gap: 8,
+    marginTop: 22,
+    fontSize: 14,
+    fontWeight: 900
   },
   footer: {
-    fontSize: 14,
+    marginTop: 28,
     color: '#94a3b8',
-    fontWeight: 500,
-    marginTop: 'auto'
-  },
-  circle: {
-    position: 'absolute',
-    borderRadius: '50%',
-    zIndex: 1
+    fontSize: 13,
+    fontWeight: 700,
+    textAlign: 'center'
   }
 };
 
