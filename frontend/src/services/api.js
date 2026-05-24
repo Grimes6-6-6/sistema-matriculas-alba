@@ -1,7 +1,7 @@
 // Servicio para comunicarse con el backend
 import axios from 'axios';
 
-// URL base del backend - Forzamos Vercel para producción
+// URL base del backend configurable por entorno
 const DEFAULT_API_URL = process.env.NODE_ENV === 'production'
   ? 'https://sistema-matriculas-alba-backend.vercel.app/api'
   : 'http://localhost:5000/api';
