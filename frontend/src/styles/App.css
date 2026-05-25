@@ -908,6 +908,108 @@ textarea {
   }
 }
 
+/* Portada y login: refuerzo responsive para la presentacion */
+@media (max-width: 900px) {
+  .landing-page {
+    align-items: flex-start !important;
+    padding: 24px 14px !important;
+  }
+
+  .landing-header {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    margin-bottom: 22px !important;
+  }
+
+  .landing-identity {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .landing-logo {
+    width: 118px !important;
+    max-width: 46vw !important;
+  }
+
+  .landing-title {
+    font-size: 32px !important;
+    line-height: 1.12 !important;
+  }
+
+  .landing-subtitle {
+    max-width: 100% !important;
+    font-size: 14px !important;
+  }
+
+  .landing-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .landing-card {
+    min-height: auto !important;
+    padding: 22px !important;
+    border-radius: 16px !important;
+  }
+
+  .auth-screen {
+    min-height: 100svh !important;
+  }
+
+  .auth-form-panel {
+    width: 100% !important;
+    min-height: 100svh !important;
+    padding: 18px !important;
+  }
+
+  .auth-form-card {
+    max-width: 520px !important;
+    padding: 28px !important;
+    border-radius: 18px !important;
+  }
+
+  .auth-logo {
+    width: 138px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-page {
+    padding: 18px 12px !important;
+  }
+
+  .landing-kicker {
+    font-size: 11px !important;
+  }
+
+  .landing-title {
+    font-size: 27px !important;
+  }
+
+  .landing-card {
+    padding: 18px !important;
+  }
+
+  .landing-footer {
+    font-size: 12px !important;
+  }
+
+  .auth-form-panel {
+    padding: 12px !important;
+  }
+
+  .auth-form-card {
+    padding: 22px 18px !important;
+    border-radius: 16px !important;
+  }
+
+  .auth-logo {
+    width: 126px !important;
+  }
+}
+
 /* Utilidades Responsivas */
 @media (min-width: 993px) {
   .only-mobile {

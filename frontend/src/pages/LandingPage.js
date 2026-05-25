@@ -36,26 +36,27 @@ const LandingPage = () => {
   ];
 
   return (
-    <main style={styles.page}>
-      <section style={styles.shell}>
-        <header style={styles.header}>
-          <div style={styles.identity}>
-            <img src="/logo_oficial.png" alt="Academia Alba" style={styles.logo} />
+    <main className="landing-page" style={styles.page}>
+      <section className="landing-shell" style={styles.shell}>
+        <header className="landing-header" style={styles.header}>
+          <div className="landing-identity" style={styles.identity}>
+            <img className="landing-logo" src="/logo_oficial.png" alt="Academia Alba" style={styles.logo} />
             <div>
-              <p style={styles.kicker}>Academia Alba Peru</p>
-              <h1 style={styles.title}>Plataforma academica digital</h1>
+              <p className="landing-kicker" style={styles.kicker}>Academia Alba Peru</p>
+              <h1 className="landing-title" style={styles.title}>Plataforma academica digital</h1>
             </div>
           </div>
-          <p style={styles.subtitle}>
+          <p className="landing-subtitle" style={styles.subtitle}>
             Accede al entorno correspondiente para consultar, registrar o administrar la informacion academica.
           </p>
         </header>
 
-        <section style={styles.grid} aria-label="Portales disponibles">
+        <section className="landing-grid" style={styles.grid} aria-label="Portales disponibles">
           {portals.map((portal) => (
             <button
               key={portal.path}
               type="button"
+              className="landing-card"
               style={styles.card}
               onClick={() => navigate(portal.path)}
               onMouseEnter={(e) => {
@@ -82,7 +83,7 @@ const LandingPage = () => {
           ))}
         </section>
 
-        <footer style={styles.footer}>
+        <footer className="landing-footer" style={styles.footer}>
           Sistema de gestion academica. Academia Alba Peru, 2026.
         </footer>
       </section>

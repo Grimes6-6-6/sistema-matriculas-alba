@@ -65,8 +65,8 @@ const Login = () => {
   };
 
   return (
-    <div className="responsive-split" style={styles.screen}>
-      <section className="hide-mobile" style={styles.brandPanel}>
+    <div className="responsive-split auth-screen" style={styles.screen}>
+      <section className="hide-mobile auth-brand-panel" style={styles.brandPanel}>
         <div style={styles.brandContent}>
           <div style={styles.iconWrap}>
             <FaUserShield size={46} color="white" />
@@ -98,10 +98,11 @@ const Login = () => {
         </div>
       </section>
 
-      <main style={styles.formPanel}>
-        <section style={styles.formCard} aria-label="Acceso administrativo">
+      <main className="auth-form-panel" style={styles.formPanel}>
+        <section className="auth-form-card" style={styles.formCard} aria-label="Acceso administrativo">
           <div style={styles.formHeader}>
             <img
+              className="auth-logo"
               src="/logo_oficial.png"
               alt="Academia Alba"
               style={styles.logo}
