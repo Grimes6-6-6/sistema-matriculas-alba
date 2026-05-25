@@ -1,28 +1,35 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
-import Dashboard from './pages/Dashboard';
-import Estudiantes from './pages/Estudiantes';
-import Cursos from './pages/Cursos';
-import Matriculas from './pages/Matriculas';
-import Pagos from './pages/Pagos';
-import Reportes from './pages/Reportes';
-import Calendario from './pages/Calendario';
-import Docentes from './pages/Docentes';
-import Tutores from './pages/Tutores';
-import Ciclos from './pages/Ciclos';
 import './styles/App.css';
 import { AuthProvider, AuthContext } from './context/AuthContext';
-import Login from './pages/Login';
-import PortalLogin from './pages/PortalLogin';
-import PortalInicio from './pages/PortalInicio';
-import PortalPagos from './pages/PortalPagos';
-import PortalHorario from './pages/PortalHorario';
-import PortalAsistencia from './pages/PortalAsistencia';
-import PortalDocenteLogin from './pages/PortalDocenteLogin';
-import PortalDocenteInicio from './pages/PortalDocenteInicio';
-import LandingPage from './pages/LandingPage';
 import { Toaster } from 'react-hot-toast';
+
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const Estudiantes = React.lazy(() => import('./pages/Estudiantes'));
+const Cursos = React.lazy(() => import('./pages/Cursos'));
+const Matriculas = React.lazy(() => import('./pages/Matriculas'));
+const Pagos = React.lazy(() => import('./pages/Pagos'));
+const Reportes = React.lazy(() => import('./pages/Reportes'));
+const Calendario = React.lazy(() => import('./pages/Calendario'));
+const Docentes = React.lazy(() => import('./pages/Docentes'));
+const Tutores = React.lazy(() => import('./pages/Tutores'));
+const Ciclos = React.lazy(() => import('./pages/Ciclos'));
+const Login = React.lazy(() => import('./pages/Login'));
+const PortalLogin = React.lazy(() => import('./pages/PortalLogin'));
+const PortalInicio = React.lazy(() => import('./pages/PortalInicio'));
+const PortalPagos = React.lazy(() => import('./pages/PortalPagos'));
+const PortalHorario = React.lazy(() => import('./pages/PortalHorario'));
+const PortalAsistencia = React.lazy(() => import('./pages/PortalAsistencia'));
+const PortalDocenteLogin = React.lazy(() => import('./pages/PortalDocenteLogin'));
+const PortalDocenteInicio = React.lazy(() => import('./pages/PortalDocenteInicio'));
+const LandingPage = React.lazy(() => import('./pages/LandingPage'));
+
+const PageLoader = () => (
+  <div className="loading">
+    <div className="spinner"></div>
+  </div>
+);
 
 // Componente para proteger rutas según rol
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -68,7 +75,8 @@ function App() {
     <AuthProvider>
       <Toaster position="top-right" />
       <Router>
-        <Routes>
+        <React.Suspense fallback={<PageLoader />}>
+          <Routes>
           {/* 1. RUTAS PÚBLICAS Y DE LOGIN (Deben estar primero) */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
@@ -153,7 +161,8 @@ function App() {
 
           {/* CATCH ALL - Redirigir a landing si nada coincide */}
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+          </Routes>
+        </React.Suspense>
       </Router>
     </AuthProvider>
   );

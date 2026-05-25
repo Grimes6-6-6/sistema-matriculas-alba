@@ -1,18 +1,15 @@
-// Rutas para gestión de pagos
 const express = require('express');
 const router = express.Router();
 const pagosController = require('../controllers/pagos.controller');
+const { validateBody, validateParams } = require('../middleware/validateRequest');
+const {
+  idParam,
+  pagoCreateBody
+} = require('../middleware/validationSchemas');
 
-// Obtener todos los pagos
 router.get('/', pagosController.obtenerTodos);
-
-// Obtener un pago por ID
-router.get('/:id', pagosController.obtenerPorId);
-
-// Registrar nuevo pago
-router.post('/', pagosController.registrar);
-
-// Anular pago
-router.delete('/:id', pagosController.anular);
+router.get('/:id', validateParams(idParam), pagosController.obtenerPorId);
+router.post('/', validateBody(pagoCreateBody), pagosController.registrar);
+router.delete('/:id', validateParams(idParam), pagosController.anular);
 
 module.exports = router;

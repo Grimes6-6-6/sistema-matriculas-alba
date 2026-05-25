@@ -1,26 +1,21 @@
-// Rutas para gestión de matrículas
 const express = require('express');
 const router = express.Router();
 const matriculasController = require('../controllers/matriculas.controller');
+const { validateBody, validateParams, validateQuery } = require('../middleware/validateRequest');
+const {
+  estudianteIdParam,
+  idParam,
+  matriculaCreateBody,
+  matriculaUpdateBody,
+  matriculasQuery
+} = require('../middleware/validationSchemas');
 
-// Obtener todas las matrículas
-router.get('/', matriculasController.obtenerTodas);
-
-// Obtener una matrícula por ID
-router.get('/:id', matriculasController.obtenerPorId);
-
-// Crear nueva matrícula
-router.post('/', matriculasController.crear);
-
-// Actualizar matrícula
-router.put('/:id', matriculasController.actualizar);
-
-// Cancelar matrícula
-router.delete('/:id', matriculasController.cancelar);
-
-// Obtener pagos de una matrícula
-router.get('/:id/pagos', matriculasController.obtenerPagos);
-// Obtener todas las matrículas de un estudiante
-router.get('/estudiante/:estudiante_id', matriculasController.obtenerPorEstudiante);
+router.get('/', validateQuery(matriculasQuery), matriculasController.obtenerTodas);
+router.get('/estudiante/:estudiante_id', validateParams(estudianteIdParam), matriculasController.obtenerPorEstudiante);
+router.get('/:id', validateParams(idParam), matriculasController.obtenerPorId);
+router.post('/', validateBody(matriculaCreateBody), matriculasController.crear);
+router.put('/:id', validateParams(idParam), validateBody(matriculaUpdateBody), matriculasController.actualizar);
+router.delete('/:id', validateParams(idParam), matriculasController.cancelar);
+router.get('/:id/pagos', validateParams(idParam), matriculasController.obtenerPagos);
 
 module.exports = router;

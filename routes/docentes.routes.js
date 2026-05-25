@@ -1,20 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const docentesController = require('../controllers/docentes.controller');
+const { validateBody, validateParams, validateQuery } = require('../middleware/validateRequest');
+const {
+  docenteBody,
+  idParam,
+  listEstadoQuery
+} = require('../middleware/validationSchemas');
 
-// Obtener todos los docentes
-router.get('/', docentesController.obtenerTodos);
-
-// Obtener un docente por ID
-router.get('/:id', docentesController.obtenerPorId);
-
-// Crear nuevo docente
-router.post('/', docentesController.crear);
-
-// Actualizar docente
-router.put('/:id', docentesController.actualizar);
-
-// Eliminar (desactivar) docente
-router.delete('/:id', docentesController.eliminar);
+router.get('/', validateQuery(listEstadoQuery), docentesController.obtenerTodos);
+router.get('/:id', validateParams(idParam), docentesController.obtenerPorId);
+router.post('/', validateBody(docenteBody), docentesController.crear);
+router.put('/:id', validateParams(idParam), validateBody(docenteBody), docentesController.actualizar);
+router.delete('/:id', validateParams(idParam), docentesController.eliminar);
 
 module.exports = router;

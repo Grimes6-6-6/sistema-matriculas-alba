@@ -541,6 +541,23 @@ textarea:focus {
   outline: none;
 }
 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(67, 97, 238, 0.25);
+  outline-offset: 2px;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
 textarea {
   height: auto;
   min-height: 80px;
@@ -905,6 +922,145 @@ textarea {
   }
   .hide-mobile {
     display: none !important;
+  }
+}
+
+/* Sistema responsive transversal para modulos administrativos */
+.table-container,
+.portal-table-wrap {
+  max-width: 100%;
+}
+
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-container table {
+  min-width: 760px;
+}
+
+.form-actions,
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.empty-state,
+.error-state {
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+  color: #64748b;
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.error-state {
+  border-color: #fecdd3;
+  background: #fff1f2;
+  color: #be123c;
+}
+
+@media (max-width: 900px) {
+  .card {
+    border-radius: 18px !important;
+    padding: 20px !important;
+  }
+
+  .card-header {
+    align-items: stretch !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    margin-bottom: 20px !important;
+    padding-bottom: 16px !important;
+  }
+
+  .card-title {
+    font-size: 21px !important;
+  }
+
+  .card-header .btn,
+  .card-header button,
+  .form-actions .btn,
+  .modal-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal {
+    max-width: 100% !important;
+    max-height: 92svh;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-header {
+    border-radius: 20px 20px 0 0;
+    padding: 18px 20px;
+  }
+
+  .modal-body {
+    padding: 18px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .main-content {
+    padding: 12px !important;
+  }
+
+  .navbar {
+    margin-bottom: 14px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .btn-icon {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .table-container {
+    border-radius: 12px;
+  }
+
+  th,
+  td {
+    padding: 12px 14px;
   }
 }
 
